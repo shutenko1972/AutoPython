@@ -1,7 +1,0 @@
-services:
-  tests:
-    build: .
-    shm_size: 2g
-    volumes:
-      - ./allure-results:/app/allure-results
-    command: python -m pytest tests/ --alluredir=allure-results -v

@@ -9,4 +9,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD python -m pytest tests/ -v
+CMD ["python", "-m", "pytest", "tests/", "-v"]

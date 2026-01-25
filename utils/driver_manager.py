@@ -1,24 +1,29 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+
+# ПЕРЕКЛЮЧАТЕЛЬ: True = браузер виден, False = скрытый режим
+SHOW_BROWSER = True
 
 def get_driver():
     options = Options()
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--log-level=3')
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
     
-    # Проверяем, запущены ли в Docker
-    if os.path.exists('/.dockerenv') or os.environ.get('RUNNING_IN_DOCKER'):
-        # Docker режим
+    if os.path.exists('/.dockerenv'):
+        # Docker всегда headless
         options.add_argument('--headless')
-        options.binary_location = '/usr/bin/chromium'
-        service = Service(executable_path='/usr/bin/chromedriver')
+        options.add_argument('--window-size=1920,1080')
     else:
-        # Локальный режим (Windows)
-        service = Service(ChromeDriverManager().install())
+        # Windows: зависит от SHOW_BROWSER
+        if SHOW_BROWSER:
+            options.add_argument('--start-maximized')
+        else:
+            options.add_argument('--headless')
+            options.add_argument('--window-size=1920,1080')
     
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(10)
     return driver

@@ -26,7 +26,13 @@ echo [3/4] Activating environment...
 call venv\Scripts\activate.bat
 
 echo [4/4] Installing dependencies...
-pip install --upgrade pip
+
+rem Обновление pip через python -m (правильный способ)
+echo Updating pip...
+python -m pip install --upgrade pip
+
+rem Установка зависимостей
+echo Installing project dependencies...
 pip install -r requirements.txt
 
 echo.
