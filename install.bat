@@ -27,7 +27,7 @@ call venv\Scripts\activate.bat
 
 echo [4/4] Installing dependencies...
 
-rem Обновление pip через python -m (правильный способ)
+rem Обновление pip через python -m
 echo Updating pip...
 python -m pip install --upgrade pip
 
